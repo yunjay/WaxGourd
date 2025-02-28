@@ -3,7 +3,7 @@
 // GLM Defines
 #define GLM_FORCE_MESSAGES
 #define GLM_FORCE_LEFT_HANDED		// Direct3D uses left handed coordinate system
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE // Direct3D uses depth range [0.0,1.0] -> TODO : need to change near and far for inverse-z
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE // Direct3D uses depth range [0.0,1.0]
 #define GLM_FORCE_RADIANS			// Radians for angles
 
 #include <glm/glm.hpp>
