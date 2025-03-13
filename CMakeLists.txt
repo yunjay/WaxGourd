@@ -34,14 +34,17 @@ file(GLOB_RECURSE SRC_FILES
     "${UTILITY_DIR}/*.cpp"
     "${SCENE_DIR}/*.cpp"
     "${INCLUDE_DIR}/*.h"
+    "${INCLUDE_DIR}/*.cpp"
 )
 
 # Add include directories
 include_directories(
     "${APPLICATION_DIR}"
     "${RENDERER_DIR}"
-    "${INCLUDE_DIR}"
     "${UTILITY_DIR}"
+    "${SCENE_DIR}"
+    "${INCLUDE_DIR}"
+    "${INCLUDE_DIR}/Imgui"
 )
 
 # vcpkg packages

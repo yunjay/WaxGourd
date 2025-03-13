@@ -2156,7 +2156,7 @@ are going to use some intermediate textures or buffers only during a small range
 and you know these ranges don't overlap in time, you can create these resources in
 the same place in memory, even if they have completely different parameters (width, height, format etc.).
 
-![Resource aliasing (overlap)](../gfx/Aliasing.png)
+![Resource aliasing (overlap)](../device/Aliasing.png)
 
 Such scenario is possible using D3D12MA, but you need to create your resources
 using special function D3D12MA::Allocator::CreateAliasingResource.
@@ -2265,7 +2265,7 @@ keeps track of used and unused regions. By default, the metadata structure and
 algorithm tries to find best place for new allocations among free regions to
 optimize memory usage. This way you can allocate and free objects in any order.
 
-![Default allocation algorithm](../gfx/Linear_allocator_1_algo_default.png)
+![Default allocation algorithm](../device/Linear_allocator_1_algo_default.png)
 
 Sometimes there is a need to use simpler, linear allocation algorithm. You can
 create custom pool that uses such algorithm by adding flag
@@ -2275,7 +2275,7 @@ creates new allocations after last one and doesn't reuse free regions after
 allocations freed in the middle. It results in better allocation performance and
 less memory consumed by metadata.
 
-![Linear allocation algorithm](../gfx/Linear_allocator_2_algo_linear.png)
+![Linear allocation algorithm](../device/Linear_allocator_2_algo_linear.png)
 
 With this one flag, you can create a custom pool that can be used in many ways:
 free-at-once, stack, double stack, and ring buffer. See below for details.
@@ -2291,7 +2291,7 @@ the pool becomes empty, allocation starts from the beginning again. This way you
 can use linear algorithm to speed up creation of allocations that you are going
 to release all at once.
 
-![Free-at-once](../gfx/Linear_allocator_3_free_at_once.png)
+![Free-at-once](../device/Linear_allocator_3_free_at_once.png)
 
 This mode is also available for pools created with D3D12MA::POOL_DESC::MaxBlockCount
 value that allows multiple memory blocks.
@@ -2302,7 +2302,7 @@ When you free an allocation that was created last, its space can be reused.
 Thanks to this, if you always release allocations in the order opposite to their
 creation (LIFO - Last In First Out), you can achieve behavior of a stack.
 
-![Stack](../gfx/Linear_allocator_4_stack.png)
+![Stack](../device/Linear_allocator_4_stack.png)
 
 This mode is also available for pools created with D3D12MA::POOL_DESC::MaxBlockCount
 value that allows multiple memory blocks.
@@ -2318,7 +2318,7 @@ stacks:
 To make allocation from the upper stack, add flag D3D12MA::ALLOCATION_FLAG_UPPER_ADDRESS
 to D3D12MA::ALLOCATION_DESC::Flags.
 
-![Double stack](../gfx/Linear_allocator_7_double_stack.png)
+![Double stack](../device/Linear_allocator_7_double_stack.png)
 
 Double stack is available only in pools with one memory block -
 D3D12MA::POOL_DESC::MaxBlockCount must be 1. Otherwise behavior is undefined.
@@ -2334,7 +2334,7 @@ beginning and starts allocation there. Thanks to this, if you always release
 allocations in the same order as you created them (FIFO - First In First Out),
 you can achieve behavior of a ring buffer / queue.
 
-![Ring buffer](../gfx/Linear_allocator_5_ring_buffer.png)
+![Ring buffer](../device/Linear_allocator_5_ring_buffer.png)
 
 Ring buffer is available only in pools with one memory block -
 D3D12MA::POOL_DESC::MaxBlockCount must be 1. Otherwise behavior is undefined.
@@ -2556,12 +2556,12 @@ HRESULT hr = D3D12MA::CreateAllocator(&allocatorDesc, &allocator);
 By default, allocations are laid out in memory blocks next to each other if possible
 (considering required alignment returned by `ID3D12Device::GetResourceAllocationInfo`).
 
-![Allocations without margin](../gfx/Margins_1.png)
+![Allocations without margin](../device/Margins_1.png)
 
 Define macro `D3D12MA_DEBUG_MARGIN` to some non-zero value (e.g. 16) inside "D3D12MemAlloc.cpp"
 to enforce specified number of bytes as a margin after every allocation.
 
-![Allocations with margin](../gfx/Margins_2.png)
+![Allocations with margin](../device/Margins_2.png)
 
 If your bug goes away after enabling margins, it means it may be caused by memory
 being overwritten outside of allocation boundaries. It is not 100% certain though.
