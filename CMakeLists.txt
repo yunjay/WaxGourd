@@ -50,13 +50,23 @@ include_directories(
 # vcpkg packages
 find_package(glm CONFIG REQUIRED)
 find_package(SDL3 CONFIG REQUIRED)
+find_package(directx-headers CONFIG REQUIRED)
+find_package(directx12-agility CONFIG REQUIRED)
 
 add_executable(WaxGourd ${SRC_FILES})
 
 target_link_libraries(WaxGourd PRIVATE glm::glm)
 target_link_libraries(WaxGourd PRIVATE SDL3::SDL3)
+target_link_libraries(WaxGourd PRIVATE Microsoft::DirectX-Headers Microsoft::DirectX-Guids Microsoft::DirectX12-Agility)
 
-
+#if(TARGET Microsoft::DirectX12-Agility)
+#    file(MAKE_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/D3D12")
+#    add_custom_command(TARGET main POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PROPERTY:Microsoft::DirectX12-Core,IMPORTED_LOCATION_RELEASE> $<TARGET_FILE_DIR:main>/D3D12
+#        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PROPERTY:Microsoft::DirectX12-Layers,IMPORTED_LOCATION_DEBUG> $<TARGET_FILE_DIR:main>/D3D12
+#        COMMAND_EXPAND_LISTS
+#    )
+#endif()
 
 # TODO: Add tests and install targets if needed.
 
