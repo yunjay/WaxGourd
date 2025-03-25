@@ -1,6 +1,7 @@
 #pragma once
 #include "Fence.h"
 #include "Device.h"
+#include "Macros.h"
 #include "CommandQueue.h"
 
 namespace WaxGourd {
