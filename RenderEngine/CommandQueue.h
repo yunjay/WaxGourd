@@ -21,8 +21,8 @@ public:
 		
 	void ExecuteCommandLists(std::span<CommandList*> cmd_lists);
 
-	void SignalFence(Fence* _fence, FenceValue _fence_value);
-	void WaitFence(Fence* _fence, FenceValue _fence_value);
+	void Signal(Fence* _fence, FenceValue _fence_value);
+	void Wait(Fence* _fence, FenceValue _fence_value);
 
 	CommandQueueType GetType() const { return m_type; }
 

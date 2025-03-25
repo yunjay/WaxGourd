@@ -35,11 +35,11 @@ namespace WaxGourd {
 		for (CommandList* command_list : _command_lists) command_list->SignalAll();
 	}
 
-	void CommandQueue::SignalFence(Fence* _fence, FenceValue _fence_value) {
+	void CommandQueue::Signal(Fence* _fence, FenceValue _fence_value) {
 		m_command_queue->Signal(_fence->GetFence(), _fence_value);
 	}
 
-	void CommandQueue::WaitFence(Fence* _fence, FenceValue _fence_value) {
+	void CommandQueue::Wait(Fence* _fence, FenceValue _fence_value) {
 		m_command_queue->Wait(_fence->GetFence(), _fence_value);
 	}
 
