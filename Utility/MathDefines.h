@@ -38,3 +38,8 @@ typedef std::int32_t int32;
 typedef std::int64_t int64;
 typedef std::uintptr_t uintPointer;
 
+inline constexpr uint64 Align(uint64 address, uint64 alignment){
+	if (alignment == 0 || alignment == 1) return address;
+	uint64 r = address % alignment;
+	return r ? address + (alignment - r) : address;
+}
