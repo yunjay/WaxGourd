@@ -3,7 +3,7 @@
 #include "ComPointer.h"
 #include "Device.h"
 #include "MathDefines.h"
-#include <d3d12.h>
+#include <directx/d3d12.h>
 namespace WaxGourd {
 class CommandAllocator {
 public:

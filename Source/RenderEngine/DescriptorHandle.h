@@ -1,6 +1,6 @@
 #pragma once
 #include "MathDefines.h"
-#include <d3d12.h>
+#include <directx/d3d12.h>
 #define D3D12_GPU_VIRTUAL_ADDRESS_INVALID ((D3D12_GPU_VIRTUAL_ADDRESS)-1)
 namespace WaxGourd {
 

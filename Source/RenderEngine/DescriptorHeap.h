@@ -3,7 +3,7 @@
 #include "Device.h"
 #include "DescriptorHandle.h"
 #include "MathDefines.h"
-#include <d3d12.h>
+#include <directx/d3d12.h>
 
 /*
 * Currently using free list allocation for descriptor heaps to use with bindless.
@@ -15,7 +15,7 @@ enum class DescriptorHeapType : uint8 {
 	Sampler, // Texture Samplers
 	RTV, // Render Target View
 	DSV, // Depth Stencil View
-	Size
+	NUM_DESCRIPTOR_HEAP_TYPES
 };
 
 class DescriptorHeap {
