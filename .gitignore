@@ -38,3 +38,4 @@ vcpkg_installed/
 CopilotIndices/
 .vs/
 out/
+build/
