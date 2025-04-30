@@ -9,37 +9,44 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp> 
 #include <cstdint>
+#include <limits>
 
-typedef glm::vec2 float2;
-typedef glm::vec3 float3;	
-typedef glm::vec4 float4;
+using float2 = glm::vec2;
+using float3 = glm::vec3;
+using float4 = glm::vec4;
 
-typedef glm::mat3 float3x3;
-typedef glm::mat4 float4x4;
+using float3x3 = glm::mat3;
+using float4x4 = glm::mat4;
 
-typedef glm::uvec2 uint2;
-typedef glm::uvec3 uint3;
-typedef glm::uvec4 uint4;
+using uint2 = glm::uvec2;
+using uint3 = glm::uvec3;
+using uint4 = glm::uvec4;
 
-typedef glm::ivec2 int2;
-typedef glm::ivec3 int3;
-typedef glm::ivec4 int4;
+using int2 = glm::ivec2;
+using int3 = glm::ivec3;
+using int4 = glm::ivec4;
 
-typedef glm::bvec2 bool2;
-typedef glm::bvec3 bool3;
-typedef glm::bvec4 bool4;
+using bool2 = glm::bvec2;
+using bool3 = glm::bvec3;
+using bool4 = glm::bvec4;
 
-typedef glm::quat quat;
+using quat = glm::quat;
 
-typedef std::uint8_t uint8;
-typedef std::uint32_t uint32;
-typedef std::uint64_t uint64;
-typedef std::int32_t int32;
-typedef std::int64_t int64;
-typedef std::uintptr_t uintPointer;
+using uint8 = std::uint8_t;
+using uint32 = std::uint32_t;
+using uint64 = std::uint64_t;
+
+using int32 = std::int32_t;
+using int64 = std::int64_t;
+
+using uintPointer = std::uintptr_t;
+
+using byteArray = std::vector<uint8>;
 
 inline constexpr uint64 Align(uint64 address, uint64 alignment){
 	if (alignment == 0 || alignment == 1) return address;
 	uint64 r = address % alignment;
 	return r ? address + (alignment - r) : address;
 }
+
+constexpr uint64 uint64_MAX = std::numeric_limits<uint64_t>::max();
