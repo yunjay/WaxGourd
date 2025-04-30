@@ -1,5 +1,5 @@
 #pragma once
-#include "ResourceCommon.h"
+#include "ResourceEnum.h"
 #include "Device.h"
 #include "CommandQueue.h"
 #include "imgui.h"

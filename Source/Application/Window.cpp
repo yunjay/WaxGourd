@@ -35,9 +35,9 @@ void Window::createWindow() {
 		std::cerr << "Window could not be created. SDL_Error: " << SDL_GetError() << std::endl;
 	}
 	m_window_properties = SDL_GetWindowProperties(m_sdl_window);
-	m_window_handle = (HWND*)SDL_GetPointerProperty(m_window_properties, SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr);
+	m_window_handle = (HWND)SDL_GetPointerProperty(m_window_properties, SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr);
 }
-HWND* Window::GetWindowHandle() const {
+HWND Window::GetWindowHandle() const {
 	return m_window_handle;
 }
 } // namepsace
