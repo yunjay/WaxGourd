@@ -1,3 +1,4 @@
+#include "Descriptor.h"
 #include "DescriptorHeap.h"
 #include "Macros.h"
 
