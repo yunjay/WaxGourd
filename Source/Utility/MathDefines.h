@@ -50,3 +50,4 @@ inline constexpr uint64 Align(uint64 address, uint64 alignment){
 }
 
 constexpr uint64 uint64_MAX = std::numeric_limits<uint64_t>::max();
+constexpr uint64 uint32_MAX = std::numeric_limits<uint32_t>::max();
