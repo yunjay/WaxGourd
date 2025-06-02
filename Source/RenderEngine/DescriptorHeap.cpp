@@ -40,32 +40,32 @@ DescriptorHeap::DescriptorHeap(Device* device, DescriptorHeapType type, uint32 d
 	m_descriptor_handle_size = device->GetDevice()->GetDescriptorHandleIncrementSize(heap_desc.Type);
 
 	m_start_descriptor_handle = m_shader_visible ? 
-		DescriptorHandle(m_heap->GetCPUDescriptorHandleForHeapStart(), m_heap->GetGPUDescriptorHandleForHeapStart()) : 
-		DescriptorHandle(m_heap->GetCPUDescriptorHandleForHeapStart());
+		Descriptor(m_heap->GetCPUDescriptorHandleForHeapStart(), m_heap->GetGPUDescriptorHandleForHeapStart()) : 
+		Descriptor(m_heap->GetCPUDescriptorHandleForHeapStart());
 
 	m_free_list.reserve(descriptor_count);
 	for (uint32 i = 0; i < descriptor_count; i++) {
 		m_free_list.push_back(i); // free indices
 	}
 }
-DescriptorHandle DescriptorHeap::GetDescriptorHandle(uint32 index = 0) const {
-	DescriptorHandle handle = m_start_descriptor_handle;
+Descriptor DescriptorHeap::GetDescriptorHandle(uint32 index = 0) const {
+	Descriptor handle = m_start_descriptor_handle;
 	handle += (index * m_descriptor_handle_size);
 	return handle;
 }
-DescriptorHandle DescriptorHeap::AllocateDescriptor() {
+Descriptor DescriptorHeap::AllocateDescriptor() {
 	assert(m_free_list.size());
-	DescriptorHandle handle = m_start_descriptor_handle;
+	Descriptor handle = m_start_descriptor_handle;
     int free_index = m_free_list.back();
 	m_free_list.pop_back();
 	handle += (free_index * m_descriptor_handle_size);
 	return handle;
 }
-void DescriptorHeap::FreeDescriptor(DescriptorHandle handle) {
+void DescriptorHeap::FreeDescriptor(Descriptor handle) {
     int cpu_idx = (int)((handle.GetCpuHandlePtr() - m_start_descriptor_handle.GetCpuHandlePtr()) / m_descriptor_handle_size);
 	m_free_list.push_back(cpu_idx);
 }
-uint32 DescriptorHeap::GetHandleOffset(const DescriptorHandle& DHandle) {
+uint32 DescriptorHeap::GetHandleOffset(const Descriptor& DHandle) {
 	return (uint32_t)(DHandle.GetCpuHandlePtr() - m_start_descriptor_handle.GetCpuHandlePtr()) / m_descriptor_handle_size;
 }
 }

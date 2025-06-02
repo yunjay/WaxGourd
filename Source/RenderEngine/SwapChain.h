@@ -4,7 +4,7 @@
 #include "CommandList.h"
 #include "ComPointer.h"
 #include "Device.h"
-#include "DescriptorHandle.h"
+#include "Descriptor.h"
 #include "ResourceEnum.h"
 #include "Macros.h"
 #include "Texture.h"
@@ -36,12 +36,12 @@ private:
 		
 	// Owns the textures
 	std::array<std::unique_ptr<Texture>, NUM_BACK_BUFFERS> m_back_buffers;
-	std::array<DescriptorHandle, NUM_BACK_BUFFERS> m_backbuffer_render_target_views;
+	std::array<Descriptor, NUM_BACK_BUFFERS> m_backbuffer_render_target_views;
 		
 	SwapChainInfo m_info;
 	uint32 m_backbuffer_index = 0;
 
 	void CreateBackbuffers();
-	DescriptorHandle GetBackBufferRenderTargetDescriptor() const;
+	Descriptor GetBackBufferRenderTargetDescriptor() const;
 };
 }

@@ -46,13 +46,13 @@ SwapChain::SwapChain(Device* device, SwapChainInfo const& info) : m_device(devic
 SwapChain::~SwapChain() {}
 
 void SwapChain::SetAsRenderTarget(CommandList* cmd_list) {
-	DescriptorHandle RTVs[] = { GetBackBufferRenderTargetDescriptor() };
+	Descriptor RTVs[] = { GetBackBufferRenderTargetDescriptor() };
 	cmd_list->SetRenderTargets(RTVs);
 }
 
 void SwapChain::ClearBackbuffer(CommandList* cmd_list) {
 	constexpr float clear_color[] = { 0,0,0,0 };
-	DescriptorHandle RTV = GetBackBufferRenderTargetDescriptor();
+	Descriptor RTV = GetBackBufferRenderTargetDescriptor();
 	cmd_list->ClearRenderTarget(RTV, clear_color);
 }
 
@@ -100,7 +100,7 @@ void SwapChain::CreateBackbuffers() {
 	}
 }
 
-DescriptorHandle SwapChain::GetBackBufferRenderTargetDescriptor() const {
+Descriptor SwapChain::GetBackBufferRenderTargetDescriptor() const {
 	return m_backbuffer_render_target_views[m_backbuffer_index];
 }
 }

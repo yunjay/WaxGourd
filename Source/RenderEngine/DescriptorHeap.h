@@ -1,7 +1,7 @@
 #pragma once
 #include "ComPointer.h"
 #include "Device.h"
-#include "DescriptorHandle.h"
+#include "Descriptor.h"
 #include "MathDefines.h"
 #include <directx/d3d12.h>
 
@@ -25,15 +25,15 @@ public:
 	operator ID3D12DescriptorHeap* () const { return m_heap.Get(); }
 	ID3D12DescriptorHeap* GetHeap() const { return m_heap.Get(); }
 
-	DescriptorHandle AllocateDescriptor();
-	void FreeDescriptor(DescriptorHandle handle);
-	uint32 GetHandleOffset(const DescriptorHandle& DHandle);
-	DescriptorHandle GetDescriptorHandle(uint32 index = 0) const;
+	Descriptor AllocateDescriptor();
+	void FreeDescriptor(Descriptor handle);
+	uint32 GetHandleOffset(const Descriptor& DHandle);
+	Descriptor GetDescriptorHandle(uint32 index = 0) const;
 private:
 	Device* m_device;
 
 	ComPointer<ID3D12DescriptorHeap> m_heap = nullptr;
-	DescriptorHandle m_start_descriptor_handle;
+	Descriptor m_start_descriptor_handle;
 	uint32 m_descriptor_handle_size = 0;
 	DescriptorHeapType m_type = DescriptorHeapType::CBV_SRV_UAV;
 	uint32 descriptor_count = 0;
