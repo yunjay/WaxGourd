@@ -1,15 +1,14 @@
-#include "d3dx12_check_feature_support.h"
+#include <print>
 
 #include "GpuCapabilities.h"
 #include "Device.h"
 
-#include <iostream>
+#include "d3dx12_check_feature_support.h"
 
 namespace WaxGourd {
 namespace {
 constexpr RayTracingSupport ConvertRayTracingTier(D3D12_RAYTRACING_TIER tier) {
-	switch (tier)
-	{
+	switch (tier) {
 	case D3D12_RAYTRACING_TIER_NOT_SUPPORTED:
 		return RayTracingSupport::NotSupported;
 	case D3D12_RAYTRACING_TIER_1_0:
@@ -20,8 +19,7 @@ constexpr RayTracingSupport ConvertRayTracingTier(D3D12_RAYTRACING_TIER tier) {
 	return RayTracingSupport::NotSupported;
 }
 constexpr VRSSupport ConvertVRSTier(D3D12_VARIABLE_SHADING_RATE_TIER tier) {
-	switch (tier)
-	{
+	switch (tier) {
 	case D3D12_VARIABLE_SHADING_RATE_TIER_NOT_SUPPORTED:
 		return VRSSupport::NotSupported;
 	case D3D12_VARIABLE_SHADING_RATE_TIER_1:
@@ -32,8 +30,7 @@ constexpr VRSSupport ConvertVRSTier(D3D12_VARIABLE_SHADING_RATE_TIER tier) {
 	return VRSSupport::NotSupported;
 }
 constexpr MeshShaderSupport ConvertMeshShaderTier(D3D12_MESH_SHADER_TIER tier) {
-	switch (tier)
-	{
+	switch (tier) {
 	case D3D12_MESH_SHADER_TIER_NOT_SUPPORTED:
 		return MeshShaderSupport::NotSupported;
 	case D3D12_MESH_SHADER_TIER_1:
@@ -43,8 +40,7 @@ constexpr MeshShaderSupport ConvertMeshShaderTier(D3D12_MESH_SHADER_TIER tier) {
 }
 
 constexpr WorkGraphSupport ConvertWorkGraphTier(D3D12_WORK_GRAPHS_TIER work_graph_tier) {
-	switch (work_graph_tier)
-	{
+	switch (work_graph_tier) {
 	case D3D12_WORK_GRAPHS_TIER_NOT_SUPPORTED: return WorkGraphSupport::NotSupported;
 	case D3D12_WORK_GRAPHS_TIER_1_0:		   return WorkGraphSupport::Tier1_0;
 	}
@@ -52,8 +48,7 @@ constexpr WorkGraphSupport ConvertWorkGraphTier(D3D12_WORK_GRAPHS_TIER work_grap
 }
 
 constexpr ShaderModel ConvertShaderModel(D3D_SHADER_MODEL shader_model) {
-	switch (shader_model)
-	{
+	switch (shader_model) {
 	case D3D_SHADER_MODEL_6_0: return ShaderModel::SM_6_0;
 	case D3D_SHADER_MODEL_6_1: return ShaderModel::SM_6_1;
 	case D3D_SHADER_MODEL_6_2: return ShaderModel::SM_6_2;
@@ -68,9 +63,7 @@ constexpr ShaderModel ConvertShaderModel(D3D_SHADER_MODEL shader_model) {
 	}
 }
 }
-
-void GpuCapabilities::Initialize(Device* device)
-{
+void GpuCapabilities::Initialize(Device* device) {
 	CD3DX12FeatureSupport feature_support;
 	feature_support.Init(device->GetDevice());
 
@@ -85,8 +78,41 @@ void GpuCapabilities::Initialize(Device* device)
 	additional_shading_rates_supported = feature_support.AdditionalShadingRatesSupported();
 
 	if ((uint8)shader_model < (uint8)ShaderModel::SM_6_6) {
-		std::cout << "Shader model 6.6 or higher is required.\n";
+		std::println("Shader model 6.6 or higher is required.");
 		assert(false);
 	}
 }
+
+bool GpuCapabilities::CheckRayTracingSupport(RayTracingSupport rts) const {
+	return ray_tracing_support >= rts;
+}
+bool GpuCapabilities::CheckVRSSupport(VRSSupport VRSs) const {
+	return VRS_support >= VRSs;
+}
+bool GpuCapabilities::CheckMeshShaderSupport(MeshShaderSupport mss) const {
+	return mesh_shader_support >= mss;
+}
+bool GpuCapabilities::CheckWorkGraphSupport(WorkGraphSupport wgs) const {
+	return work_graph_support >= wgs;
+}
+bool GpuCapabilities::SupportsRayTracing() const {
+	return CheckRayTracingSupport(RayTracingSupport::Tier1_0);
+}
+bool GpuCapabilities::SupportsMeshShaders() const {
+	return CheckMeshShaderSupport(MeshShaderSupport::Tier1);
+}
+bool GpuCapabilities::SupportsVRS() const { // Variable Rate Shading
+	return CheckVRSSupport(VRSSupport::Tier1);
+}
+bool GpuCapabilities::SupportsWorkGraphs() const {
+	return CheckWorkGraphSupport(WorkGraphSupport::Tier1_0);
+}
+bool GpuCapabilities::SupportsShaderModel(ShaderModel sm) const {
+	return shader_model >= sm;
+}
+bool GpuCapabilities::SupportsEnhancedBarriers() const {
+	return enhanced_barriers_supported; // falls back to legacy barriers if false
+}
+bool GpuCapabilities::SupportsAdditionalShadingRates() const { return additional_shading_rates_supported; }
+uint32 GpuCapabilities::GetShadingRateImageTileSize() const { return shading_rate_image_tile_size; }
 }

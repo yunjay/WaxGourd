@@ -17,37 +17,17 @@ private:
 public:
 	void Initialize(Device* device); // Initializes the capabilities based on the device properties
 
-	bool CheckRayTracingSupport(RayTracingSupport rts) const {
-		return ray_tracing_support >= rts;
-	}
-	bool CheckVRSSupport(VRSSupport VRSs) const {
-		return VRS_support >= VRSs;
-	}
-	bool CheckMeshShaderSupport(MeshShaderSupport mss) const {
-		return mesh_shader_support >= mss;
-	}
-	bool CheckWorkGraphSupport(WorkGraphSupport wgs) const {
-		return work_graph_support >= wgs;
-	}
-	bool SupportsRayTracing() const {
-		return CheckRayTracingSupport(RayTracingSupport::Tier1_0);
-	}
-	bool SupportsMeshShaders() const {
-		return CheckMeshShaderSupport(MeshShaderSupport::Tier1);
-	}
-	bool SupportsVRS() const { // Variable Rate Shading
-		return CheckVRSSupport(VRSSupport::Tier1);
-	}
-	bool SupportsWorkGraphs() const {
-		return CheckWorkGraphSupport(WorkGraphSupport::Tier1_0);
-	}
-	bool SupportsShaderModel(ShaderModel sm) const {
-		return shader_model >= sm;
-	}
-	bool SupportsEnhancedBarriers() const {
-		return enhanced_barriers_supported; // falls back to legacy barriers if false
-	}
-	bool SupportsAdditionalShadingRates() const { return additional_shading_rates_supported; }
-	uint32 GetShadingRateImageTileSize() const { return shading_rate_image_tile_size; }
+	bool CheckRayTracingSupport(RayTracingSupport rts) const;
+	bool CheckVRSSupport(VRSSupport VRSs) const;
+	bool CheckMeshShaderSupport(MeshShaderSupport mss) const;
+	bool CheckWorkGraphSupport(WorkGraphSupport wgs) const;
+	bool SupportsRayTracing() const;
+	bool SupportsMeshShaders() const;
+	bool SupportsVRS() const;
+	bool SupportsWorkGraphs() const;
+	bool SupportsShaderModel(ShaderModel sm) const;
+	bool SupportsEnhancedBarriers() const;
+	bool SupportsAdditionalShadingRates() const;
+	uint32 GetShadingRateImageTileSize() const;
 };
 }
