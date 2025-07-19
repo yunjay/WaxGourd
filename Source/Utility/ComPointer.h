@@ -1,24 +1,19 @@
 #pragma once
 #include <type_traits>
 // Code to replace ComPtr 
-namespace WaxGourd
-{
+namespace WaxGourd {
 template <typename T>
-class ComPointer
-{
+class ComPointer {
 public:
 	using InterfaceType = T;
 
 public:
 	ComPointer() : ptr_(nullptr) {}
 
-	ComPointer(decltype(nullptr)) : ptr_(nullptr)
-	{
-	}
+	ComPointer(decltype(nullptr)) : ptr_(nullptr) {}
 
 	template<typename U>
-	ComPointer(U* other) : ptr_(other)
-	{
+	ComPointer(U* other) : ptr_(other) {
 		internalAddReference();
 	}
 
