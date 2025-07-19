@@ -30,7 +30,7 @@ enum class RayTracingSupport : uint8 {
 	Tier1_0,
 	Tier1_1
 };
-enum class VSRSupport : uint8 {
+enum class VRSSupport : uint8 { // Variable Rate Shading
 	NotSupported,
 	Tier1,
 	Tier2
