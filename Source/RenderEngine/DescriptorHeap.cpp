@@ -1,5 +1,6 @@
 #pragma once
 #include "DescriptorHeap.h"
+#include "Descriptor.h"
 #include <directx/d3d12.h>
 /*
 * Currently using free list allocation for descriptor heaps to use with bindless.
@@ -33,15 +34,15 @@ DescriptorHeap::DescriptorHeap(Device* device, DescriptorHeapType type, uint32 d
 	if (shader_visible) 
 		m_start_descriptor.m_gpu_handle = m_heap->GetGPUDescriptorHandleForHeapStart();
 	m_start_descriptor.m_index = 0;
-	m_end_descriptor.Increment(m_descriptor_handle_size, desc.descriptor_count - 1);
+	m_end_descriptor.Increment(m_descriptor_handle_size, descriptor_count - 1);
 	m_free_descriptor_ranges.emplace_back(m_start_descriptor, m_end_descriptor);
 }
 void DescriptorHeap::createD3DHeap() {
 	assert(m_descriptor_count <= UINT32_MAX);
 	D3D12_DESCRIPTOR_HEAP_DESC heap_desc{};
 	heap_desc.Flags = m_shader_visible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	heap_desc.NumDescriptors = descriptor_count;
-	heap_desc.Type = GetD3D12HeapType(type);
+	heap_desc.NumDescriptors = m_descriptor_count;
+	heap_desc.Type = GetD3D12HeapType(m_type);
 	ASSERT_HRESULT(m_device->GetDevice()->CreateDescriptorHeap(&heap_desc, IID_PPV_ARGS(m_heap.ReleaseAndGetAddressOf())));
 	m_descriptor_handle_size = m_device->GetDevice()->GetDescriptorHandleIncrementSize(heap_desc.Type);
 }
@@ -70,7 +71,7 @@ void DescriptorHeap::FreeDescriptor(Descriptor descriptor) {
 			found = true;
 		}
 		// Descriptor is right after a free range (extend end)
-		else if (free_range->end == handle) {
+		else if (free_range->end == descriptor) {
 			free_range->end.Increment(m_descriptor_handle_size);
 			found = true;
 		}
@@ -89,8 +90,8 @@ Descriptor DescriptorHeap::GetDescriptorHandle(uint32 index = 0) const {
 	assert(m_heap != nullptr);
 	assert(index < m_descriptor_count);
 
-	Descriptor handle = m_start_descriptor_handle;
-	handle.Increment(m_descriptor_handle_size, index);
+	Descriptor handle = m_start_descriptor;
+	handle.Increment(m_descriptor_handle_size, index); // Walk from start to the desired index
 	return handle;
 }
 

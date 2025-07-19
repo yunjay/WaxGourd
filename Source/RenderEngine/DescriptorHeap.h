@@ -1,7 +1,7 @@
 #pragma once
 #include "ComPointer.h"
-#include "Device.h"
 #include "Descriptor.h"
+#include "Device.h"
 #include "MathDefines.h"
 
 #include <directx/d3d12.h>
