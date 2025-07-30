@@ -23,11 +23,11 @@ CommandAllocatorPool::CommandAllocatorPool(Device* device, CommandListType type,
 		}
 	}
 }
-CommandAllocator* CommandAllocatorPool::GetAllocator(uint64_t CompletedFenceValue) {
+CommandAllocator* CommandAllocatorPool::GetAllocator(FenceValue completed_fence_value) {
 	CommandAllocatorPtrWithFenceValue allocator_info;
     // First attempt to get an existing allocator
     while (m_free_allocators.TryPop(allocator_info)) {
-        if (allocator_info.fence_value <= CompletedFenceValue) {
+        if (allocator_info.fence_value <= completed_fence_value) {
             // Reset allocator
             allocator_info.command_allocator->Reset();
             
@@ -41,14 +41,13 @@ CommandAllocator* CommandAllocatorPool::GetAllocator(uint64_t CompletedFenceValu
     }
 
     // If failed to get allocator from free list, create a new one.
-
     // Create a new allocator directly and don't add it to free list
     std::unique_ptr<CommandAllocator> new_allocator = std::make_unique<CommandAllocator>(m_device, m_command_list_type);
     CommandAllocator* result = new_allocator.get();
     // Add to ownership pool only
     m_allocator_pool.Push(std::move(new_allocator));
 
-    return result;
+    return result; // User is in charge of returning
 }
 void CommandAllocatorPool::ReturnAllocator(FenceValue fence_value, CommandAllocator* allocator) {
     if (allocator == nullptr) {

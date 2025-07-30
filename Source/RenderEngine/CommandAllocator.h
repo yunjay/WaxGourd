@@ -44,7 +44,7 @@ public:
 	CommandAllocatorPool(Device* device, CommandListType type, uint32 initial_size = 18u);
 	~CommandAllocatorPool() = default; // CommandAllocator handles release (RAII)
 
-	CommandAllocator* GetAllocator(FenceValue completed_fence_value);
+	CommandAllocator* GetAllocator(FenceValue completed_fence_value); // Fetches and resets available allocator
 	void ReturnAllocator(FenceValue fence_value, CommandAllocator* allocator);
 
 	inline uint64 GetSize();
