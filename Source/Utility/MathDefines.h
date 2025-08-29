@@ -2,14 +2,18 @@
 
 // GLM Defines
 #define GLM_FORCE_MESSAGES
-#define GLM_FORCE_LEFT_HANDED		// Direct3D uses left handed coordinate system
+#define GLM_FORCE_LEFT_HANDED		// left handed coordinate system is more traditional for Direct3D
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE // Direct3D uses depth range [0.0,1.0]
 #define GLM_FORCE_RADIANS			// Radians for angles
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp> 
 #include <cstdint>
+#include <vector>
+#include <unordered_map>
+#include <typeindex>
 #include <limits>
+namespace WaxGourd {
 
 using float2 = glm::vec2;
 using float3 = glm::vec3;
@@ -43,11 +47,24 @@ using uintPointer = std::uintptr_t;
 
 using byteArray = std::vector<uint8>;
 
+using TypeIndexedPodStorage = std::unordered_map<std::type_index, std::unique_ptr<uint8[]>>;
+
 inline constexpr uint64 Align(uint64 address, uint64 alignment){
 	if (alignment == 0 || alignment == 1) return address;
 	uint64 r = address % alignment;
 	return r ? address + (alignment - r) : address;
 }
+#include <type_traits>
+
+inline constexpr auto AlignBitOp(uint32_t size, uint32_t alignment) {
+
+	// alignment must be a power of two
+	const auto alignment_mask = (alignment) - 1;
+	return (size + alignment_mask) & ~alignment_mask;
+}
 
 constexpr uint64 uint64_MAX = std::numeric_limits<uint64_t>::max();
-constexpr uint64 uint32_MAX = std::numeric_limits<uint32_t>::max();
+constexpr uint32 uint32_MAX = std::numeric_limits<uint32_t>::max();
+constexpr float float_INF = std::numeric_limits<float>::infinity();
+
+}
