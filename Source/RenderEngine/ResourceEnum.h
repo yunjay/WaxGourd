@@ -5,6 +5,11 @@
 #include "MathDefines.h"
 #include "Macros.h"
 namespace WaxGourd {
+enum class ColorSpace {
+	Linear = 0,
+	sRGB = 1
+	// ACES = 2
+};
 #pragma region Formats
 enum class ResourceFormat {
 	Unknown,
@@ -495,6 +500,16 @@ inline constexpr uint32 GetResourceFormatSlicePitch(ResourceFormat format, uint3
 	}
 	return std::max(slice_pitch + (GetResourceFormatBlockSize(format) - 1) / GetResourceFormatBlockSize(format), 1u); // Round up, and ensure at least 1 byte
 }
+inline uint64 GetResourceFormatMipByteSize(ResourceFormat format, uint32 width, uint32 height, uint32 depth, uint32 mip_index) {
+	return (uint64)GetResourceFormatSlicePitch(format, width, height, mip_index) * std::max(1u, depth >> mip_index);
+}
+inline uint64 GetResourceFormatByteSize(ResourceFormat format, uint32 width, uint32 height, uint32 depth = 1, uint32 mip_count = 1) {
+	uint64 size = 0;
+	for (uint32 mip_level = 0; mip_level < mip_count; ++mip_level) {
+		size += GetResourceFormatMipByteSize(format, width, height, depth, mip_level);
+	}
+	return size;
+}
 inline constexpr bool IsDepthFormat(ResourceFormat format) {
 	switch (format) {
 	case ResourceFormat::D16_UNORM:
@@ -506,6 +521,7 @@ inline constexpr bool IsDepthFormat(ResourceFormat format) {
 	return false;
 }
 #pragma endregion
+#pragma region Barriers
 enum class ResourceStateEnum : uint64_t { // For barriers - Enhanced barriers only
 	None = 0,
 	Common = 1ULL << 0,
@@ -630,6 +646,7 @@ inline D3D12_BARRIER_ACCESS GetD3D12BarrierAccess(ResourceState flags) {
     if (flags.HasFlag(ResourceStateEnum::Acceleration_Structure_Write)) access |= D3D12_BARRIER_ACCESS_RAYTRACING_ACCELERATION_STRUCTURE_WRITE;
     return access;
 }
+#pragma endregion
 enum class ResourceHeapType : uint8 { // usage
 	Default, // GPU only
 	Upload, // CPU write, GPU read
@@ -656,6 +673,7 @@ enum class SubresourceType : uint8 {
 	UAV, // Unordered Access View
 	RTV, // Render Target View
 	DSV, // Depth Stencil View
+	// CBV is only used through root constants, not with descriptors
 	Invalid
 };
 
