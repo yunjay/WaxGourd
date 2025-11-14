@@ -30,6 +30,8 @@ public:
 	Uint32 GetBackbufferIndex() const { return m_backbuffer_index; }
 	Texture* GetBackbuffer() const { return m_back_buffers[m_backbuffer_index].get(); }
 
+	void CreateBackbuffers();
+	Descriptor GetBackBufferRenderTargetDescriptor() const;
 private:
 	Device* m_device = nullptr;
 	ComPointer<IDXGISwapChain4> m_swap_chain = nullptr;
@@ -40,8 +42,5 @@ private:
 		
 	SwapChainInfo m_info;
 	uint32 m_backbuffer_index = 0;
-
-	void CreateBackbuffers();
-	Descriptor GetBackBufferRenderTargetDescriptor() const;
 };
 }
