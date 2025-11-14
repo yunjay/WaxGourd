@@ -85,7 +85,7 @@ void SwapChain::CreateBackbuffers() {
 		HRESULT hr = m_swap_chain->GetBuffer(i, IID_PPV_ARGS(back_buffer.GetAddressOf()));
 		ASSERT_HRESULT(hr);
 		D3D12_RESOURCE_DESC resource_desc = back_buffer->GetDesc();
-		TextureInfo texture_info{};
+		TextureDesc texture_info{};
 		texture_info.width = (Uint32)resource_desc.Width;
 		texture_info.height = (Uint32)resource_desc.Height;
 		texture_info.format = GetFormat(resource_desc.Format);
