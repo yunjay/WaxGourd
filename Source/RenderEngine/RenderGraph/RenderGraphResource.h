@@ -177,57 +177,47 @@ namespace std {
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-	template <> struct hash<WaxGourd::RenderGraphBufferId>
-	{
+	template <> struct hash<WaxGourd::RenderGraphBufferId> {
 		uint64 operator()(WaxGourd::RenderGraphBufferId const& h) const
 		{
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-	template <> struct hash<WaxGourd::RenderGraphTextureReadOnlyId>
-	{
+	template <> struct hash<WaxGourd::RenderGraphTextureReadOnlyId> {
 		uint64 operator()(WaxGourd::RenderGraphTextureReadOnlyId const& h) const
 		{
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-	template <> struct hash<WaxGourd::RenderGraphTextureReadWriteId>
-	{
+	template <> struct hash<WaxGourd::RenderGraphTextureReadWriteId> {
 		uint64 operator()(WaxGourd::RenderGraphTextureReadWriteId const& h) const
 		{
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-	template <> struct hash<WaxGourd::RenderGraphRenderTargetId>
-	{
+	template <> struct hash<WaxGourd::RenderGraphRenderTargetId> {
 		uint64 operator()(WaxGourd::RenderGraphRenderTargetId const& h) const
 		{
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-	template <> struct hash<WaxGourd::RenderGraphDepthStencilId>
-	{
+	template <> struct hash<WaxGourd::RenderGraphDepthStencilId> {
 		uint64 operator()(WaxGourd::RenderGraphDepthStencilId const& h) const
 		{
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-
-	template <> struct hash<WaxGourd::RenderGraphBufferReadOnlyId>
-	{
+	template <> struct hash<WaxGourd::RenderGraphBufferReadOnlyId> {
 		uint64 operator()(WaxGourd::RenderGraphBufferReadOnlyId const& h) const
 		{
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-
-	template <> struct hash<WaxGourd::RenderGraphBufferReadWriteId>
-	{
+	template <> struct hash<WaxGourd::RenderGraphBufferReadWriteId> {
 		uint64 operator()(WaxGourd::RenderGraphBufferReadWriteId const& h) const
 		{
 			return hash<decltype(h.m_id)>()(h.m_id);
 		}
 	};
-	
 #pragma endregion
 } // namespace WaxGourd
